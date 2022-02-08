@@ -8,7 +8,7 @@ let template = (ctx) => html`
             ${ctx.user.isAuthenticated
                 ? html`
                     <li>
-                        <a href="">Create new offer</a>
+                        <a href="/create">Create new offer</a>
                     </li> 
                 `
                 : html`
@@ -25,8 +25,8 @@ let template = (ctx) => html`
                     <li class="site-logo">Shelf</li>                
                 `
                 : html`
-                    <li>Welcome, xxx@xx.xxx | 
-                        <a  href="">Logout</a>
+                    <li>Welcome, ${ctx.user.email} | 
+                        <a  href="/logout">Logout</a>
                     </li>
                 `
             }

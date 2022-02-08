@@ -1,5 +1,5 @@
 import { html, render } from '../node_modules/lit-html/lit-html.js';
-import { getUserData } from '../services/authService.js'
+import { getUserData } from '../services/authService.js';
 
 let template = (ctx) => html`
     <navigation-component></navigation-component>
@@ -31,7 +31,7 @@ let template = (ctx) => html`
                 </div>
                 <div class="shoe">
                     <img
-                        src="https://d1zkmbbkp46fmz.cloudfront.net/dbzh4XEt8gAeDWA8NmRQVkbja9Y=/fit-in/700x700/9/6/8/c/968c97afa73e54a7b1d4fcdc2caf4bc15e161e34_Asics_Gel_Lyte_V_Mantle_Green_White_1191A267_300_1.jpg">
+                        src="https://images.asics.com/is/image/asics/1021A185_300_SR_RT_GLB-1?$sfcc-product$">
                     <h3>Asics Gel-Quantum</h3>
                     <a>Buy it for $140,00</a>
                 </div>
@@ -45,7 +45,7 @@ let template = (ctx) => html`
                         <img src="../public/shoes2.jpg" alt="">
                     </div>
                     <p>
-                        <a href="">Register Now</a> and Try it!
+                        <a href="/register">Register Now</a> and Try it!
                     </p>
                 </div>
             </div>
