@@ -1,0 +1,19 @@
+{
+  "name": "shoeshelf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "lite-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "@vaadin/router": "^1.7.4",
+    "lit-html": "^2.1.3"
+  }
+}
