@@ -16,7 +16,7 @@ let template = (ctx) => html`
                 `
             }
             <li>
-                <a href="">
+                <a href="/">
                     <img src="../public/sneakers.png" alt="">
                 </a>
             </li> 
@@ -26,7 +26,7 @@ let template = (ctx) => html`
                 `
                 : html`
                     <li>Welcome, ${ctx.user.email} | 
-                        <a  href="/logout">Logout</a>
+                        <a href="/logout">Logout</a>
                     </li>
                 `
             }

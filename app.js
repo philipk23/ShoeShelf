@@ -4,11 +4,14 @@ import Navigation from './components/navigation.js';
 import Footer from './components/footer.js';
 import Home from './components/home.js';
 import Register from './components/register.js';
+import Login from './components/login.js';
+import { logout } from './services/authService.js';
 
 customElements.define('navigation-component', Navigation);
 customElements.define('footer-component', Footer);
 customElements.define('home-component', Home);
 customElements.define('register-component', Register);
+customElements.define('login-component', Login);
 
 const root = document.getElementById('app');
 const router = new Router(root);
@@ -21,5 +24,21 @@ router.setRoutes([
     {
         path: '/register',
         component: 'register-component'
-    }
+    },
+    {
+        path: '/login',
+        component: 'login-component'
+    },
+    {
+        path: '/logout',
+        action: (context, commands) => {
+            logout()
+                .then(() => {
+                    console.log('Successfully logged out');
+                })
+                .catch(err => console.error('Oops, something went wrong'));
+            console.log('Not redirecting');
+            return commands.redirect('/login');
+        }
+    },
 ])
