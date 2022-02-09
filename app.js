@@ -6,6 +6,8 @@ import Home from './components/home.js';
 import Register from './components/register.js';
 import Login from './components/login.js';
 import Create from './components/create.js';
+import Shoe from './components/shoe.js';
+import ShoeCard from './components/shoe-card.js';
 import { logout } from './services/authService.js';
 
 customElements.define('navigation-component', Navigation);
@@ -14,6 +16,8 @@ customElements.define('home-component', Home);
 customElements.define('register-component', Register);
 customElements.define('login-component', Login);
 customElements.define('create-component', Create);
+customElements.define('shoe-component', Shoe);
+customElements.define('shoe-card-component', ShoeCard);
 
 const root = document.getElementById('app');
 const router = new Router(root);
