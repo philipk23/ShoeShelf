@@ -39,3 +39,9 @@ export const deleteShoe = async (id) => {
 
     return res;
 }
+
+export const buyShoe = async (id, email) => {
+    let res = await request(`${databaseUrl}/shoes/${id}/buyers/.json`, 'POST', {email});
+
+    return res;
+}

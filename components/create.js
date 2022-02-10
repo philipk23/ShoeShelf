@@ -1,6 +1,7 @@
 import { html, render } from '../node_modules/lit-html/lit-html.js';
 import { Router } from 'https://unpkg.com/@vaadin/router';
 import { addShoe } from '../services/shoeService.js';
+import { getUserData } from '../services/authService.js';
 
 let template = (ctx) => html`
     <navigation-component></navigation-component>
@@ -45,6 +46,8 @@ export default class Create extends HTMLElement{
             imageUrl: formData.get('imageUrl'),
             description: formData.get('description'),
             brand: formData.get('brand'),
+            creator: getUserData().email,
+            buyers: [],
         };
 
         addShoe(offer)

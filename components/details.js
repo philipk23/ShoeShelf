@@ -1,39 +1,95 @@
 import { html, render } from '../node_modules/lit-html/lit-html.js';
-import { getOneById } from '../services/shoeService.js';
+import { getUserData } from '../services/authService.js';
+import { getOneById, buyShoe } from '../services/shoeService.js';
+
+const getShoe = async(shoeId, email) => {
+    let shoeData = await getOneById(shoeId);
+
+    const buyers = Object.values(shoeData.buyers || {});
+    const hasBought = await hasAlreadyBought(buyers, email);
+    const buyersCount = buyers.length;
+
+    Object.assign(shoeData, {
+        hasBought,
+        buyersCount
+    });
+
+    return shoeData;
+}
+
+const hasAlreadyBought = async (buyers, email) => {
+    return Object.values(buyers).some(buyer => buyer.email == email);
+}
 
 let template = (ctx) => html`
+    <navigation-component></navigation-component>
     <div class="offer-details">
-        <h1>Under Armour HOVR</h1>
+        <h1>${ctx.shoe.name}</h1>
         <div class="info">
-            <img src="https://i1.t4s.cz/products/3023295-602/under-armour-ua-w-hovr-phantom-se-trek-263676-3023295-603.jpg"
+            <img src="${ctx.shoe.imageUrl}"
                 alt="">
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis explicabo
-                voluptatibus odio? Deleniti amet qui tenetur ipsa enim blanditiis laboriosam distinctio, dignissimos
-                cupiditate, delectus autem. Explicabo exercitationem voluptatibus reprehenderit repellat. Lorem
-                ipsum dolor, sit amet consectetur adipisicing elit. Tempore reiciendis maiores aliquid nobis,
-                accusantium dolore iste ipsa atque deserunt corrupti maxime, alias neque libero temporibus expedita
-                magni perferendis aut nostrum.
+            <div class="description">${ctx.shoe.description}
                 <br>
                 <br>
-                <p class="price">$149.99</p>
+                <p class="price">$${ctx.shoe.price}</p>
             </div>
         </div>
         <div class="actions">
-            <a>Edit</a>
-            <a>Delete</a>
-            <a>Buy</a>
-            <span>You bought it</span>
+            ${ctx.shoe.creator == ctx.user
+                ? html`
+                    <a href="${location.pathname}/edit">Edit</a>
+                    <a @click="${ctx.onDelete}">Delete</a>
+                `
+                : html`
+                    ${!ctx.shoe.hasAlreadyBought
+                        ? html`
+                            <a @click="${ctx.onBuy}">Buy</a>
+                        `
+                        : html`
+                            <span>You bought it</span>                        
+                        `
+                    }
+                `
+            }
         </div>
     </div>
+    <footer-component></footer-component>
 `;
 
 export default class Details extends HTMLElement{
     connectedCallback(){
+        this.user = getUserData().email;
 
         this.render();
     }
 
+    onDelete(e){
+        e.preventDefault();
+
+        let shoeId = location.pathname.replace('/details/', '').replace('/edit', '');
+
+        deleteShoe(shoeId)
+            .then(res => {
+                Router.go('/');
+            })
+    }
+
+    onBuy(e){
+        e.preventDefault();
+
+        let shoeId = location.pathname.replace('/details/', '').replace('/edit', '');
+
+        buyShoe(shoeId, getUserData().email)
+            .then(data => {
+                render();
+            });
+    }
+
     render(){
-        render(template(this), this, { eventContext: this});
+        getShoe(this.location.params.id, getUserData().email)
+            .then(shoe => {
+                this.shoe = shoe;
+                render(template(this), this, { eventContext: this});
+            })
     }
 }
