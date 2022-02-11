@@ -1,6 +1,5 @@
 import { html, render } from '../node_modules/lit-html/lit-html.js';
 import { getUserData } from '../services/authService.js';
-import { getAllShoes } from '../services/shoeService.js';
 
 let template = (ctx) => html`
     <navigation-component></navigation-component>

@@ -9,11 +9,15 @@ const api = {
 export const getAllShoes = async (searchText) => {
     let res = await request(api.shoes, 'GET');
 
-    //console.log(Object.keys(res).map(key => ({key, ...res[key]})));
+    let shoes = Object.keys(res)
+        .map(key => ({key, ...res[key]}))
+        .sort((a, b) => {
+            return (Object.values(a.buyers || {}).length || 0) - (Object.values(b.buyers || {}).length || 0)
+        });
 
     //It works without the filter part
 
-    return Object.keys(res).map(key => ({key, ...res[key]}))//.filter(x => !searchText || searchText == key.title);
+    return shoes//Object.keys(res).map(key => ({key, ...res[key]}))//.filter(x => !searchText || searchText == key.title);
 }
 
 export const getOneById = async (id) => {

@@ -1,6 +1,7 @@
+import { Router } from 'https://unpkg.com/@vaadin/router'; 
 import { html, render } from '../node_modules/lit-html/lit-html.js';
 import { getUserData } from '../services/authService.js';
-import { getOneById, buyShoe } from '../services/shoeService.js';
+import { getOneById, buyShoe, deleteShoe } from '../services/shoeService.js';
 
 const getShoe = async(shoeId, email) => {
     let shoeData = await getOneById(shoeId);
@@ -41,13 +42,9 @@ let template = (ctx) => html`
                     <a @click="${ctx.onDelete}">Delete</a>
                 `
                 : html`
-                    ${!ctx.shoe.hasAlreadyBought
-                        ? html`
-                            <a @click="${ctx.onBuy}">Buy</a>
-                        `
-                        : html`
-                            <span>You bought it</span>                        
-                        `
+                    ${ctx.shoe.hasBought
+                        ? html`<span>You bought it</span>`
+                        : html`<a @click="${ctx.onBuy}">Buy</a>`
                     }
                 `
             }
@@ -66,7 +63,7 @@ export default class Details extends HTMLElement{
     onDelete(e){
         e.preventDefault();
 
-        let shoeId = location.pathname.replace('/details/', '').replace('/edit', '');
+        let shoeId = location.pathname.replace('/details/', '');
 
         deleteShoe(shoeId)
             .then(res => {
@@ -77,11 +74,11 @@ export default class Details extends HTMLElement{
     onBuy(e){
         e.preventDefault();
 
-        let shoeId = location.pathname.replace('/details/', '').replace('/edit', '');
+        let shoeId = location.pathname.replace('/details/', '');
 
         buyShoe(shoeId, getUserData().email)
             .then(data => {
-                render();
+                render()
             });
     }
 
