@@ -75,10 +75,11 @@ export default class Details extends HTMLElement{
         e.preventDefault();
 
         let shoeId = location.pathname.replace('/details/', '');
+        let userEmail = getUserData().email
 
-        buyShoe(shoeId, getUserData().email)
+        buyShoe(shoeId, userEmail)
             .then(data => {
-                render()
+                render();
             });
     }
 
